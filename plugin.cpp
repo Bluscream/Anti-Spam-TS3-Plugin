@@ -347,39 +347,38 @@ int ts3plugin_onTextMessageEvent(uint64 serverConnectionHandlerID, anyID targetM
 				std::string lastChatMSG = message;
 			}
 		}
-	}
-	else if (g_IgnoreDuplicateMessages) {
-		if (std::string(message) == lastChatMSG) {
-			return 1;
-			std::string lastChatMSG = message;
+		else if (g_IgnoreDuplicateMessages) {
+			if (std::string(message) == lastChatMSG) {
+				return 1;
+				std::string lastChatMSG = message;
+			}
+			else {
+				return 0;
+				std::string lastChatMSG = message;
+			}
 		}
-		else {
-			return 0;
-			std::string lastChatMSG = message;
+		else if (g_IgnoreEmptyMessages) {
+			if (std::string(message) == "") {
+				return 1;
+				std::string lastChatMSG = message;
+			}
+			else {
+				return 0;
+				std::string lastChatMSG = message;
+			}
 		}
-	}
-	else if (g_IgnoreEmptyMessages) {
-		if (std::string(message) == "") {
-			return 1;
-			std::string lastChatMSG = message;
+		else if (g_IgnoreLongMessages) {
+			std::string msg = message;
+			if (msg.length() > 450) {
+				return 1;
+				std::string lastChatMSG = message;
+			}
+			else {
+				return 0;
+				std::string lastChatMSG = message;
+			}
 		}
-		else {
-			return 0;
-			std::string lastChatMSG = message;
-		}
-	}
-	else if (g_IgnoreLongMessages) {
-		std::string msg = message;
-		if (msg.length() > 450) {
-			return 1;
-			std::string lastChatMSG = message;
-		}
-		else {
-			return 0;
-			std::string lastChatMSG = message;
-		}
-	}
-	else {
+	} else {
 		return 0;
 	}
 }
